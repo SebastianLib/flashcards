@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from './routes/auth.route.js'
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = 3000;
@@ -9,6 +10,8 @@ dotenv.config();
 const router = express.Router();
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
