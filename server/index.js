@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from './routes/auth.route.js'
+import flashcardRouter from './routes/flashcard.route.js'
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/auth', authRouter)
+app.use('/flashcard', flashcardRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
