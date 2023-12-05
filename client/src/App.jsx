@@ -9,6 +9,10 @@ import { store, persistor } from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import Profile from "./Pages/Profile";
+import Landing from "./Pages/Landing";
+import Create from "./Pages/Create";
+import Sets from "./Pages/Sets";
+import Set from "./Pages/Set";
 
 export default function App() {
   return (
@@ -21,7 +25,39 @@ export default function App() {
               path="/"
               element={
                 <PrivateRoute>
+                  <Landing />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
                   <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <PrivateRoute>
+                  <Create />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/sets"
+              element={
+                <PrivateRoute>
+                  <Sets />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/set/:id"
+              element={
+                <PrivateRoute>
+                  <Set />
                 </PrivateRoute>
               }
             />

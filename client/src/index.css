@@ -6,3 +6,9 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+@layer utilities {
+  .text-flip-x {
+    transform: scaleX(-1);
+  }
+}

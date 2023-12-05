@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 export default function PrivateRoute({children}) {
+    const {pathname} = useLocation();
     const {currentUser}= useSelector((state) => state.user);
-    console.log(currentUser);
+    if(pathname === "/" && currentUser) return <Navigate to="/home"/>
+
     if(!currentUser) return <Navigate to="/sign-in"/>
     return children
 }

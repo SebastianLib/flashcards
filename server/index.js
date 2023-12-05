@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/auth', authRouter)
-app.use('/flashcard', flashcardRouter)
+app.use('/flashcards', flashcardRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

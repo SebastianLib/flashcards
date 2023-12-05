@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { logout } from "../redux/user/userSlice";
+import { logoutFlashcards } from "../redux/flashcards/flashcardsSlice";
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -20,16 +21,23 @@ export default function Header() {
   return (
     <nav className="fixed top-0 z-20 w-full bg-white flex items-center px-2 md:px-4 xl:px-20 py-4 shadow-md justify-between overflow-x-hidden">
       <div className="hidden lg:flex items-center gap-8 min-w-max">
-        <h1 className="text-blue-700 md:text-3xl lg:text-4xl font-extrabold cursor-pointer">
-          Flashcards
-        </h1>
+        <Link to="/home">
+          <h1 className="text-blue-700 md:text-3xl lg:text-4xl font-extrabold cursor-pointer">
+            Flashcards
+          </h1>
+        </Link>
         <ul className="flex gap-4 md:text-base cursor-pointer font-semibold text-black mr-2">
-          <li className="transition-colors duration-300 hover:text-gray-700">
-            Home
-          </li>
-          <li className="transition-colors duration-300 hover:text-gray-700">
-            Your resources
-          </li>
+          <Link to="/home">
+            <li className="transition-colors duration-300 hover:text-gray-700">
+              Home
+            </li>
+          </Link>
+
+          <Link to="/sets">
+            <li className="transition-colors duration-300 hover:text-gray-700">
+              Your resources
+            </li>
+          </Link>
         </ul>
       </div>
       <div className="min-w-max">
@@ -49,7 +57,7 @@ export default function Header() {
       {currentUser ? (
         <div className="flex gap-4 justify-end">
           <Tooltip
-            className="bg-blue-700 py-1 px-3"
+            className="bg-blue-700 py-1 px-3 z-30"
             content="Create"
             placement="bottom-start"
           >
@@ -68,13 +76,13 @@ export default function Header() {
                   className="w-full rounded-full overflow-hidden cursor-pointer object-contain"
                 />
               </MenuHandler>
-              <MenuList>
+              <MenuList className="z-30">
                 <Link to="/profile">
                   <MenuItem className="p-2 my-2">Your Profile</MenuItem>
                 </Link>
                 <MenuItem
                   className="p-2 my-2 bg-red-500 text-white rounded-xl"
-                  onClick={() => dispatch(logout())}
+                  onClick={() => dispatch(logout(), logoutFlashcards())}
                 >
                   logout
                 </MenuItem>
@@ -86,12 +94,12 @@ export default function Header() {
         <div className="flex gap-4">
           <Link to="/sign-in">
             <button className="px-4 py-2 bg-white transition-colors duration-300 hover:bg-slate-100 rounded-xl">
-              Zaloguj się
+              Sign in
             </button>
           </Link>
           <Link to="/sign-up">
             <button className="px-4 py-2 bg-yellow-300 transition-colors duration-300 hover:bg-yellow-400 rounded-xl">
-              Zarejestruj się
+              Sign up
             </button>
           </Link>
         </div>

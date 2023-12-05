@@ -2,19 +2,21 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { signinUser } from '../redux/user/userSlice';
 import { Navigate } from 'react-router-dom';
+import { getFlashcards } from '../redux/flashcards/flashcardsSlice';
 
 export default function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {currentUser, loading, error} = useSelector((state) => state.user)
+  const {currentUser, loading, error, status} = useSelector((state) => state.user)
+  const {flashcards} = useSelector((state) => state.flashcards)
   const dispatch = useDispatch();
 
-  if(currentUser) return <Navigate to="/"/>
+  if(currentUser) return <Navigate to="/home"/>
 
   const handleSubmit = (e) => { 
     e.preventDefault();
-    dispatch(signinUser({email, password}))
+    dispatch(signinUser({ email, password }));
    }
 
   return (

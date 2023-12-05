@@ -1,5 +1,6 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
+import flashcardsReducer from './flashcards/flashcardsSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -8,7 +9,7 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer });
+const rootReducer = combineReducers({ user: userReducer, flashcards: flashcardsReducer});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

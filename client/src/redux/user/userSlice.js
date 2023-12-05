@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { useDispatch } from 'react-redux';
+import { getFlashcards } from '../flashcards/flashcardsSlice';
 
 const initialState = {
   currentUser: null,
@@ -29,6 +31,7 @@ export const createUser = createAsyncThunk("user/createUser", async ({username,e
 })
 
 export const signinUser = createAsyncThunk("user/signinUser", async ({email, password}) => {
+  console.log("xd");
     try {
         const axiosResponse = await axios.post('http://localhost:3000/auth/signin', {
           email: email,
