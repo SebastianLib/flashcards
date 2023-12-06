@@ -25,6 +25,10 @@ const flashcardSetSchema = new Schema({
     required: true,
   },
   flashcards: [flashcardSchema], 
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const FlashcardSet = mongoose.model("Flashcard", flashcardSetSchema);

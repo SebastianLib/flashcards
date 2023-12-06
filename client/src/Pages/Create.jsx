@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewSet, startSetup} from "../redux/flashcards/flashcardsSlice";
+import { createNewSet, startSetup } from "../redux/flashcards/flashcardsSlice";
+import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 
 export default function Create() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const {flashcards, loading, error, status} = useSelector(state => state.flashcards)
-  const {currentUser} = useSelector(state => state.user)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const { flashcards, loading, error, status } = useSelector(
+    (state) => state.flashcards
+  );
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const [items, setItems] = useState([
     {
       concept: "",
@@ -41,7 +43,7 @@ export default function Create() {
       },
     ]);
   };
-
+  
   const handleFlashcard = (e) => {
     const name = e.target.id.split(" ")[0];
     const id = e.target.id.split(" ")[1];
@@ -55,24 +57,36 @@ export default function Create() {
     });
   };
 
-  const handleSubmit = (e) => { 
-    e.preventDefault();
-    dispatch(createNewSet({
-      title,
-      description,
-      items,
-      userRef: currentUser?._id
-    }))
-   }
+  const handleRemoveFlashcard = (index) => {
+    const flashcardIndex = index
+    setItems((prevItems) => {
+      return prevItems.filter((item, index) => index !== flashcardIndex);
+    });
+  };
 
-   useEffect(()=>{
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      createNewSet({
+        title,
+        description,
+        items,
+        userRef: currentUser?._id,
+      })
+    );
+  };
+
+  useEffect(() => {
     dispatch(startSetup());
-   },[])
+  }, []);
 
   return (
     <section className="min-h-screen bg-slate-100">
-      <div className="container mx-auto">
-        <form onSubmit={handleSubmit} className="md:min-w-[400px] mx-auto py-32 px-12 rounded-xl">
+      <div className="max-w-6xl px-2 mx-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="md:min-w-[400px] mx-auto py-32 rounded-xl"
+        >
           <h1 className="text-4xl font-extrabold mb-4">
             Create a new study set
           </h1>
@@ -89,7 +103,7 @@ export default function Create() {
               className="bg-white border border-gray-300 text-gray-900 lg:text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="enter a title for example 'learning English - home'"
               required
-              onChange={(e)=>setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
           </div>
@@ -105,14 +119,17 @@ export default function Create() {
               rows="4"
               className="block p-2.5 w-full lg:text-xl text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
               placeholder="Add description..."
-              onChange={(e)=>setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               value={description}
             ></textarea>
           </div>
           <div className="my-8">
             {items.map((item, index) => (
-              <div key={index} className="mb-5 bg-white p-4 w-full rounded-lg">
-                <h1 className="text-xl font-extrabold">{index+1}</h1>
+              <div
+                key={index}
+                className="mb-5 relative bg-white p-4 w-full rounded-lg"
+              >
+                <h1 className="text-xl font-extrabold">{index + 1}</h1>
                 <div className="flex flex-col lg:flex-row lg:gap-16">
                   <div className="flex flex-col flex-1 ">
                     <input
@@ -120,7 +137,7 @@ export default function Create() {
                       id={`concept ${index}`}
                       className="border-b-2 border-black text-gray-900 lg:text-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       placeholder=""
-                      required
+                      value={item.concept}
                       onChange={handleFlashcard}
                     />
                     <label
@@ -137,7 +154,7 @@ export default function Create() {
                       id={`definition ${index}`}
                       className="border-b-2 border-black  text-gray-900 lg:text-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       placeholder=""
-                      required
+                      value={item.definition}
                       onChange={handleFlashcard}
                     />
                     <label
@@ -148,6 +165,10 @@ export default function Create() {
                     </label>
                   </div>
                 </div>
+                <MdOutlineRemoveCircleOutline
+                  onClick={() => handleRemoveFlashcard(index)}
+                  className="text-4xl absolute top-2 right-2 cursor-pointer transition-colors duration-300 text-red-700 hover:text-red-600"
+                />
               </div>
             ))}
           </div>

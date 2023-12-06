@@ -34,7 +34,7 @@ export const getFlashcards = async (req, res, next) => {
 
 export const updateSet = async (req, res, next) => {
   try {
-     await FlashcardSet.findByIdAndUpdate(
+    await FlashcardSet.findByIdAndUpdate(
       {
         _id: req.body._id,
       },
@@ -44,7 +44,7 @@ export const updateSet = async (req, res, next) => {
     );
     const flashcards = await FlashcardSet.find({ userRef: req.body.userRef });
 
-    res.status(201).json(flashcards)
+    res.status(201).json(flashcards);
   } catch (error) {
     console.log(error);
     next(error);
@@ -56,8 +56,8 @@ export const removeSet = async (req, res, next) => {
   try {
     await FlashcardSet.deleteOne({ _id: req.body.setId });
     const flashcards = await FlashcardSet.find({ userRef: req.body.userRef });
-    
-    res.status(201).json({flashcards})
+
+    res.status(201).json({ flashcards });
   } catch (error) {
     console.log(error);
     next(error);
@@ -71,8 +71,31 @@ export const removeFlashcard = async (req, res, next) => {
       { new: true }
     );
     const flashcards = await FlashcardSet.find({ userRef: req.body.userRef });
-    
-    res.status(201).json({flashcards})
+
+    res.status(201).json({ flashcards });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const addNewFlashcard = async (req, res, next) => {
+  try {
+    await FlashcardSet.updateOne(
+      { _id: req.body._id },
+      {
+        $push: {
+          flashcards: {
+            concept: req.body.concept,
+            definition: req.body.definition,
+          },
+        },
+      }
+    );
+
+    const flashcards = await FlashcardSet.find({ userRef: req.body.userRef });
+
+    res.status(201).json({ flashcards });
   } catch (error) {
     console.log(error);
     next(error);
