@@ -47,3 +47,27 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateUser = async (req, res, next) => {
+    try {
+      if(req.body.password){
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        req.body.password = hashedPassword;
+      }
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.body._id },
+        req.body,
+        { new: true }
+      );
+      
+      if (!updatedUser) return next(errorHandler(404, "User not found!"));
+  
+      const { password, ...rest } = updatedUser._doc;
+  
+      res.status(201).json(rest);
+    } catch (error) {
+      next(error);
+    }
+  };
+  

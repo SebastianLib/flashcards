@@ -174,6 +174,7 @@ export default function Create() {
           </div>
 
           <button
+          type="button"
             onClick={addNewFlashcard}
             className="w-full bg-white mb-4 py-8 text-2xl font-extrabold"
           >

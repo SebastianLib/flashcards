@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 function Sets() {
   const { flashcards } = useSelector((state) => state.flashcards);
   const [actualFlashcards, setActualFlashcards] = useState(flashcards);
-
   const dispatch = useDispatch();
   const handleRemoveSet = (setId, userRef) => {
     dispatch(removeSet({ setId, userRef }));
@@ -38,7 +37,8 @@ function Sets() {
 
   useEffect(()=>{
     setActualFlashcards(StartFromLatestSet())
-  },[])
+    setActualFlashcards(flashcards)
+  },[flashcards])
 
   return (
     <section className="min-h-screen bg-slate-100 p-2">

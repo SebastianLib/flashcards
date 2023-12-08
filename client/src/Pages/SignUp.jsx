@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {createUser} from '../redux/user/userSlice'
+import {createUser, resetToDefault} from '../redux/user/userSlice'
 import {Navigate} from 'react-router-dom'
+import Status from "../components/Status";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {loading, error, status} = useSelector((state) => state.user)
+  const {loading, message, error} = useSelector((state) => state.user)
   const dispatch = useDispatch();
 
 const handleSubmit = (e) => { 
   e.preventDefault();
   dispatch(createUser({username ,email, password}))
  }
+
+ useEffect(()=>{
+  if(message || error){
+    dispatch(resetToDefault());
+  }
+ },[])
+
   return (
     <div className="h-screen flex items-center">
       <form
@@ -75,8 +83,7 @@ const handleSubmit = (e) => {
         >
           Submit
         </button>
-        {status? <p className="mt-2">{status}</p> : null}
-        {error? <p className="mt-2">{error}</p> : null}
+        <Status/>
       </form>
     </div>
   );

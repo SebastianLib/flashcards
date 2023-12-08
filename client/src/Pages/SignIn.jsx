@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { signinUser } from '../redux/user/userSlice';
+import { resetToDefault, signinUser } from '../redux/user/userSlice';
 import { Navigate } from 'react-router-dom';
-import { getFlashcards } from '../redux/flashcards/flashcardsSlice';
 
 export default function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {currentUser, loading, error, status} = useSelector((state) => state.user)
+  const {currentUser, loading, error, message} = useSelector((state) => state.user)
   const {flashcards} = useSelector((state) => state.flashcards)
   const dispatch = useDispatch();
-
-  if(currentUser) return <Navigate to="/home"/>
+  if(currentUser) {
+    return <Navigate to="/home"/>
+  }
 
   const handleSubmit = (e) => { 
     e.preventDefault();
@@ -64,8 +64,6 @@ export default function SignIn() {
         >
           Submit
         </button>
-        {status? <p className="mt-2">{status}</p> : null}
-        {error? <p className="mt-2">{error}</p> : null}
       </form>
     </div>
   )
