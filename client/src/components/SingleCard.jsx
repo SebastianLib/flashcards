@@ -60,14 +60,14 @@ function SingleCard({ actualFlashcards }) {
   };
 
   const handleRestart = () => {
-    setShowResults(false)
-    setCorrectAnswers(0)
-    setIncorrectAnswers(0)
-    setActualIndex(0)
+    setShowResults(false);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    setActualIndex(0);
     setResults([]);
     setShowCard(false);
-    setPercentage(0)
-  }
+    setPercentage(0);
+  };
 
   useEffect(() => {
     countAnswers();
@@ -79,15 +79,23 @@ function SingleCard({ actualFlashcards }) {
   return (
     <div>
       {showResults ? (
-
         <div className="flex items-center max-w-4xl mx-auto justify-center px-4 py-12 rounded-xl shadow-xl gap-8 bg-white">
           <div style={{ width: 200, height: 200 }}>
             <CircularProgressbar value={percentage} text={percentage + "%"} />
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-xl font-medium text-green-600">correct answers: {correctAnswers}</p>
-            <p className="text-xl font-medium text-red-600">incorrect answers: {incorrectAnswers}</p>
-            <button onClick={handleRestart} className="py-4 rounded-xl text-white mt-2 bg-blue-700 hover:bg-blue-600 transition-all duration-300">Restart</button>
+            <p className="text-xl font-medium text-green-600">
+              I already know: {correctAnswers}
+            </p>
+            <p className="text-xl font-medium text-red-600">
+              I don't remember yet: {incorrectAnswers}
+            </p>
+            <button
+              onClick={handleRestart}
+              className="py-4 rounded-xl text-white mt-2 bg-blue-700 hover:bg-blue-600 transition-all duration-300"
+            >
+              Restart
+            </button>
           </div>
         </div>
       ) : (
